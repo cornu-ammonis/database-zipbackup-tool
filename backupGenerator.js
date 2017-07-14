@@ -9,7 +9,36 @@ function getCurrentDateString() {
 			(date.getHours() + 1) + "-" + (date.getMinutes() + 1);
 
 		return dateString;
+}
+
+function getIntegerDayFromDateString(ds) {
+
+	let dashCount = 0;
+	let dayString = '';
+	let i = 0
+	
+	while(i < ds.length) {
+		
+		if (ds[i] === '-'){
+			dashcount += 1;
+			if (dashCount >= 3) {
+				break;
+			}
+
+			// don't add a dash to the day string
+			i += 1;
+			continue;
+		}
+
+		if (dashCount === 2) {
+			dayString += ds[i];
+		}
+
+		i += 1;
 	}
+
+	return parseInt(dayString);
+}
 
 // from https://stackoverflow.com/questions/18112204/get-all-directories-within-directory-nodejs
 function getDirectories (srcpath) {
@@ -84,4 +113,12 @@ exports.updateBackups = function() {
 	else {
 		logger.errorLog('no zip found - not deleting backup files');
 	}
+}
+
+exports.testDayStringConverter = function() {
+	console.log(getIntegerDayFromDateString(getCurrentDateString()));
+
+	console.log(getIntegerDayFromDateString('2017-7-04-16-48'))
+
+	console.log(getIntegerDayFromDateString('2017-7-4-16-48'))
 }

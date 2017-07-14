@@ -1,3 +1,4 @@
 var backup = require('./backupGenerator.js');
 
-backup.updateBackups();
+//backup.updateBackups();
+backup.testDayStringConverter();
