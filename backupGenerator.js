@@ -4,7 +4,7 @@ exports.manuallyTriggerBackupGeneration = function () {
 	const { exec } = require('child_process');
 	exec('docker exec -it kobodocker_kobocat_1 /srv/src/kobocat/docker/backup_media.bash', (err, stdout, stderr) => {
 	  if (err) {
-	    // node couldn't execute the command
+	    console.log('error ' + err.message);
 	    return;
 	  }
 
