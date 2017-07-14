@@ -25,6 +25,13 @@ function createZipFromBackupDirectories(name) {
 	zip.writeZip('./zips/' + name);
 }
 
+function removeFileIfExists(path) {
+	if (fs.existsSync(path)) {
+
+		fs.unlinkSync(path);
+	}
+}
+
 function removeUnzippedBackupFiles() {
 	let backupSubDirectories = getDirectories('./backups/');
 
@@ -53,7 +60,7 @@ exports.testWalkingDirectories = function() {
 	}
 }
 
-exports.updateBackups() {
+exports.updateBackups = function() {
 	let nameOfNewZip = getCurrentDateString() + '.zip';
 
 	createZipFromBackupDirectories(nameOfNewZip);
