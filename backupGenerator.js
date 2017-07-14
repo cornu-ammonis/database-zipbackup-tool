@@ -26,8 +26,11 @@ function createZipFromBackupDirectories(name) {
 }
 
 function removeFileIfExists(path) {
+
+	console.log('checking ' + path);
 	if (fs.existsSync(path)) {
 
+		console.log('removing ' + path);
 		fs.unlinkSync(path);
 	}
 }
@@ -41,7 +44,7 @@ function removeUnzippedBackupFiles() {
 		let files = fs.readdirSync(subdir);
 
 		for (let j = 0; j < files.length; j++) {
-			fs.unlinkSync(subdir + files[j]);
+			removeFileIfExists(subdir + '/' + files[j]);
 		}
 	}
 }
