@@ -1,0 +1,25 @@
+{
+  "name": "database-zipbackup-tool",
+  "version": "1.0.0",
+  "description": "compresses database dumps into zip files, clears old zips after specified time interval",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cornu-ammonis/database-zipbackup-tool.git"
+  },
+  "keywords": [
+    "zip",
+    "database",
+    "dump",
+    "backup"
+  ],
+  "author": "Andrew Jones",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/cornu-ammonis/database-zipbackup-tool/issues"
+  },
+  "homepage": "https://github.com/cornu-ammonis/database-zipbackup-tool#readme"
+}
