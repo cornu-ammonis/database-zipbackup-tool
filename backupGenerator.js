@@ -84,7 +84,7 @@ function removeUnzippedBackupFiles() {
 }
 
 function isZip(filename) {
-	let ss = filename.slice(string.length-4, string.length);
+	let ss = filename.slice(filename.length-4, filename.length);
 
 	return ss === '.zip';
 }
@@ -119,7 +119,7 @@ function removeZipFilesOlderThanTwoWeeks() {
 	let files = fs.readdirSync('./zips/');
 
 	for (let i = 0; i < files.length; i++) {
-		if isZip(files[i]) {
+		if (isZip(files[i])) {
 			deleteIfOlderThanTwoWeeks(files[i], currentDayInt);
 		}
 	}
@@ -154,6 +154,13 @@ exports.updateBackups = function() {
 	}
 	else {
 		logger.errorLog('no zip found - not deleting backup files');
+	}
+
+	try {
+		removeZipFilesOlderThanTwoWeeks();
+	}
+	catch (e) {
+		logger.errorLog(' error removing zip files: ' + e.message + e.stack);
 	}
 }
 
