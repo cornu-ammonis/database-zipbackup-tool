@@ -17,7 +17,7 @@ function getDirectories (srcpath) {
     .filter(file => fs.lstatSync(path.join(srcpath, file)).isDirectory())
 }
 
-exports.createZipFromBackupDirectory = function () {
+function createZipFromBackupDirectories() {
 
 	let zip = new AdmZip();
 
