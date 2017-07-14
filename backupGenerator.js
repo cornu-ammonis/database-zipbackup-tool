@@ -11,6 +11,7 @@ function getCurrentDateString() {
 		return dateString;
 	}
 
+// from https://stackoverflow.com/questions/18112204/get-all-directories-within-directory-nodejs
 function getDirectories (srcpath) {
   return fs.readdirSync(srcpath)
     .filter(file => fs.lstatSync(path.join(srcpath, file)).isDirectory())
