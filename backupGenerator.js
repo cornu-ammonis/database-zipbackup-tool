@@ -77,8 +77,11 @@ exports.updateBackups = function() {
 			removeUnzippedBackupFiles();
 		}
 		else {
-			logger.errorLog('not enough entries in backup zip; not deleting file');
+			logger.errorLog('not enough entries in backup zip; not deleting backup files');
 		}
 		
+	}
+	else {
+		logger.errorLog('no zip found - not deleting backup files');
 	}
 }
