@@ -1,15 +1,18 @@
 var AdmZip = require('adm-zip');
+var logger = require('./logger.js');
 
-exports.manuallyTriggerBackupGeneration = function () {
-	const { exec } = require('child_process');
-	exec('docker exec -it kobodocker_kobocat_1 /srv/src/kobocat/docker/backup_media.bash', (err, stdout, stderr) => {
-	  if (err) {
-	    console.log('error ' + err.message);
-	    return;
-	  }
+function getCurrentDateString() {
+		let date = new Date();
+		let dateString = "" + date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate() + "-" + 
+			(date.getHours() + 1) + "-" + (date.getMinutes() + 1);
 
-	  // the *entire* stdout and stderr (buffered)
-	  console.log(`stdout: ${stdout}`);
-	  console.log(`stderr: ${stderr}`);
-	});
+		return dateString;
+	}
+
+exports.createZipFromBackupDirectory = function () {
+
+	let zip = new AdmZip();
+
+	zip.addLocalFolder('./backups/');
+	zip.writeZip('./zips/' + getCurrentDateString() + '.zip');
 }
