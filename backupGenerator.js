@@ -83,6 +83,20 @@ function removeUnzippedBackupFiles() {
 	}
 }
 
+function isZip(filename) {
+	let ss = filename.slice(string.length-4, string.length);
+
+	return ss === '.zip';
+}
+
+function removeZipFilesOlderThanTwoWeeks() {
+	let currentDayInt = getIntegerDayFromDateString(getCurrentDateString());
+
+	let files = fs.readdirSync('./zips/');
+
+	for
+}
+
 // creates a new zip file containing the contents of hte ./backups/ directory
 // if it confirms that the zip file was successfully created. 
 exports.updateBackups = function() {
