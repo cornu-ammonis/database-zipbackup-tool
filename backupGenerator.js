@@ -62,7 +62,23 @@ exports.updateBackups = function() {
 	createZipFromBackupDirectories(nameOfNewZip);
 
 	if (fs.existsSync('./zips/' + nameOfNewZip)) {
+		let zipCreated = new AdmZip('./zips/' + nameOfNewZip);
+		let zipEntries = zipCreated.getEntries();
+		logger.log('zip ' + nameOfNewZip + ' length ' + zipEntries.length);
+		
+		let logstring = "";
+		zipEntries.forEach(function(zipEntry) {
+	    	logstring += zipEntry.toString(); // outputs zip entries information
+		});
 
-		removeUnzippedBackupFiles();
+		logger.log(logstring);
+
+		if (zipEntries.length >= 6) {
+			removeUnzippedBackupFiles();
+		}
+		else {
+			logger.errorLog('not enough entries in backup zip; not deleting file');
+		}
+		
 	}
 }
