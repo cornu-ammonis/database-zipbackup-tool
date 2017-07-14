@@ -21,5 +21,8 @@
   "bugs": {
     "url": "https://github.com/cornu-ammonis/database-zipbackup-tool/issues"
   },
-  "homepage": "https://github.com/cornu-ammonis/database-zipbackup-tool#readme"
+  "homepage": "https://github.com/cornu-ammonis/database-zipbackup-tool#readme",
+  "dependencies": {
+    "adm-zip": "^0.4.7"
+  }
 }
