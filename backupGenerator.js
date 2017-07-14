@@ -89,12 +89,26 @@ function isZip(filename) {
 	return ss === '.zip';
 }
 
+function deleteZip(filename) {}
+
+function deleteIfOlderThanTwoWeeks(filename, currentDayInt) {
+	let fileDayInt = getIntegerDayFromDateString(filename.slice(0, filename.length-4));
+
+	if (fileDayInt < currentDayInt) {
+
+	}
+}
+
 function removeZipFilesOlderThanTwoWeeks() {
 	let currentDayInt = getIntegerDayFromDateString(getCurrentDateString());
 
 	let files = fs.readdirSync('./zips/');
 
-	for
+	for (let i = 0; i < files.length; i++) {
+		if isZip(files[i]) {
+			deleteIfOlderThanTwoWeeks(files[i], currentDayInt);
+		}
+	}
 }
 
 // creates a new zip file containing the contents of hte ./backups/ directory
