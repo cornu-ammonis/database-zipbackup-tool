@@ -25,6 +25,20 @@ function createZipFromBackupDirectories(name) {
 	zip.writeZip('./zips/' + name);
 }
 
+function removeUnzippedBackupFiles() {
+	let backupSubDirectories = getDirectories('./backups/');
+
+	for (let i = 0; i < backupSubDirectories.length; i++) {
+		let subdir = './backups/' + backupSubDirectories[i];
+
+		let files = fs.readdirSync(subdir);
+
+		for (let j = 0; j < files.length; j++) {
+			fs.unlinkSync(subdir + files[j]);
+		}
+	}
+}
+
 exports.testWalkingDirectories = function() {
 	let files = fs.readdirSync('./backups/');
 
