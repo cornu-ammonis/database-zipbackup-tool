@@ -89,13 +89,27 @@ function isZip(filename) {
 	return ss === '.zip';
 }
 
-function deleteZip(filename) {}
+function deleteZip(filename) {
+	let path = './zips/' + filename;
+
+	if (fs.existsSync(path)) {
+		fs.unlinkSync(path);
+	}
+}
 
 function deleteIfOlderThanTwoWeeks(filename, currentDayInt) {
 	let fileDayInt = getIntegerDayFromDateString(filename.slice(0, filename.length-4));
 
 	if (fileDayInt < currentDayInt) {
-
+		if ((currentDayInt - fileDayInt) >= 14) {
+			deleteZip(filename);
+		} 
+	}
+	// edge case: new month
+	else {
+		if (((31 - fileDayInt) + currentDayInt) >= 15) {
+			deleteZip(filename);
+		}
 	}
 }
 
