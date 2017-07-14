@@ -17,12 +17,12 @@ function getDirectories (srcpath) {
     .filter(file => fs.lstatSync(path.join(srcpath, file)).isDirectory())
 }
 
-function createZipFromBackupDirectories() {
+function createZipFromBackupDirectories(name) {
 
 	let zip = new AdmZip();
 
 	zip.addLocalFolder('./backups/');
-	zip.writeZip('./zips/' + getCurrentDateString() + '.zip');
+	zip.writeZip('./zips/' + name);
 }
 
 exports.testWalkingDirectories = function() {
@@ -36,5 +36,16 @@ exports.testWalkingDirectories = function() {
 
 	for (let i = 0; i < dirs.length; i++) {
 		console.log(dirs[i]);
+	}
+}
+
+exports.updateBackups() {
+	let nameOfNewZip = getCurrentDateString() + '.zip';
+
+	createZipFromBackupDirectories(nameOfNewZip);
+
+	if (fs.existsSync('./zips/' + nameOfNewZip)) {
+
+		removeUnzippedBackupFiles();
 	}
 }
