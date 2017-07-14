@@ -17,6 +17,9 @@ function getDirectories (srcpath) {
     .filter(file => fs.lstatSync(path.join(srcpath, file)).isDirectory())
 }
 
+// writes contents at ./backups to ./zips/ with getCurrentDateString.zip as the file name
+// note -- AdmZip sometimes fails on e.g. image files, but has worked fine on hte tar files which 
+// this will be used for.
 function createZipFromBackupDirectories(name) {
 
 	let zip = new AdmZip();
@@ -25,6 +28,7 @@ function createZipFromBackupDirectories(name) {
 	zip.writeZip('./zips/' + name);
 }
 
+// removes a file specified by path if it is a valid file 
 function removeFileIfExists(path) {
 
 	console.log('checking ' + path);
@@ -35,6 +39,7 @@ function removeFileIfExists(path) {
 	}
 }
 
+// deletes files found in the subdirectories of ./backups/
 function removeUnzippedBackupFiles() {
 	let backupSubDirectories = getDirectories('./backups/');
 
@@ -49,20 +54,8 @@ function removeUnzippedBackupFiles() {
 	}
 }
 
-exports.testWalkingDirectories = function() {
-	let files = fs.readdirSync('./backups/');
-
-	for (let i = 0; i < files.length; i++) {
-		console.log(files[i]);
-	}
-
-	let dirs = getDirectories('./backups/');
-
-	for (let i = 0; i < dirs.length; i++) {
-		console.log(dirs[i]);
-	}
-}
-
+// creates a new zip file containing the contents of hte ./backups/ directory
+// if it confirms that the zip file was successfully created. 
 exports.updateBackups = function() {
 	let nameOfNewZip = getCurrentDateString() + '.zip';
 
