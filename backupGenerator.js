@@ -1,5 +1,6 @@
 var AdmZip = require('adm-zip');
 var logger = require('./logger.js');
+var fs = require('fs.extra');
 
 function getCurrentDateString() {
 		let date = new Date();
@@ -15,4 +16,12 @@ exports.createZipFromBackupDirectory = function () {
 
 	zip.addLocalFolder('./backups/');
 	zip.writeZip('./zips/' + getCurrentDateString() + '.zip');
+}
+
+exports.testWalkingDirectories = function() {
+	files = fs.readdirSync('./backups/');
+
+	for (let i = 0; i < files.length; i++) {
+		console.log(files[i]);
+	}
 }
