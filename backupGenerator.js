@@ -20,7 +20,7 @@ function getIntegerDayFromDateString(ds) {
 	while(i < ds.length) {
 		
 		if (ds[i] === '-'){
-			dashcount += 1;
+			dashCount += 1;
 			if (dashCount >= 3) {
 				break;
 			}
