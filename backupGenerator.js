@@ -1,6 +1,7 @@
 var AdmZip = require('adm-zip');
 var logger = require('./logger.js');
-var fs = require('fs.extra');
+const fs = require('fs.extra');
+const path = require('path')
 
 function getCurrentDateString() {
 		let date = new Date();
@@ -9,6 +10,11 @@ function getCurrentDateString() {
 
 		return dateString;
 	}
+
+function getDirectories (srcpath) {
+  return fs.readdirSync(srcpath)
+    .filter(file => fs.lstatSync(path.join(srcpath, file)).isDirectory())
+}
 
 exports.createZipFromBackupDirectory = function () {
 
@@ -19,9 +25,15 @@ exports.createZipFromBackupDirectory = function () {
 }
 
 exports.testWalkingDirectories = function() {
-	files = fs.readdirSync('./backups/');
+	let files = fs.readdirSync('./backups/');
 
 	for (let i = 0; i < files.length; i++) {
 		console.log(files[i]);
+	}
+
+	let dirs = getDirectories('./backups/');
+
+	for (let i = 0; i < dirs.length; i++) {
+		console.log(dirs[i]);
 	}
 }
