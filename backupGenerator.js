@@ -100,7 +100,7 @@ function deleteZip(filename) {
 function deleteIfOlderThanTwoWeeks(filename, currentDayInt) {
 	let fileDayInt = getIntegerDayFromDateString(filename.slice(0, filename.length-4));
 
-	if (fileDayInt < currentDayInt) {
+	if (fileDayInt <= currentDayInt) {
 		if ((currentDayInt - fileDayInt) >= 14) {
 			deleteZip(filename);
 		} 
