@@ -44,7 +44,7 @@ function firstBackupAndStartInterval(_hoursInterval) {
 var args = process.argv.slice(2);
 
 // defaults
-var hoursDelay = 00277; // equivalent to ~10 seconds, gives user chance to abort
+var hoursDelay = 0.01667; // equivalent to ~60 seconds, gives user chance to abort
 var hoursInterval = 24;
 
 // case where user provides no arguments
