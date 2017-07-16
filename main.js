@@ -1,11 +1,11 @@
 /* 
 USAGE:
-	start with 'node main.js {hoursDelay} {intervalHours}'
+	start with 'node main.js {hoursDelay} {hoursIntervalHours}'
 	where {hoursDelay} is the number of hours to wait before attempting to generate backups.
-	after that delay and the initial backup generation, the tool will wait for {interval} hours before
+	after that hoursDelay and the initial backup generation, the tool will wait for {hoursInterval} hours before
 	attempting to generate backups again.
 
-	if hoursDelay is undefined or 0, the first backup will happen immediately. if intervalHours is undefined, 
+	if hourshoursDelay is undefined or 0, the first backup will happen immediately. if hoursIntervalHours is undefined, 
 	default is 24 hours between backups.
 	
 	this setup is a workaround for the fact that docker containers can report a distinct time from
@@ -17,8 +17,6 @@ USAGE:
 
 var backup = require('./backupGenerator.js');
 var logger = require('./logger.js');
-
-var args = process.argv.slice(2);
 
 function generateBackups() {
 
@@ -34,4 +32,45 @@ function generateBackups() {
 }
 
 
-setInterval(generateBackupsIfThreeAM, 1000 * 60 * 60);
+
+var args = process.argv.slice(2);
+var hoursDelay;
+var hoursInterval;
+
+if (args.length == 0) {
+	hoursDelay = 0;
+	hoursInterval = 24;
+
+	console.log('defaulting to immediate backup and 24 hour hoursInterval');
+}
+else if (args.length == 1) {
+	if (isNaN(args[0])) {
+		console.log('you didnt enter a number for the hoursDelay, defaulting to generate backups after 10 seconds');
+		hoursDelay = .00277;
+	}
+	else {
+		hoursDelay = parseInt(args[0]);
+	}
+
+	hoursInterval = 24;
+}
+else if (args.length > 1) {
+	
+	if (isNaN(args[0])) {
+		console.log('you didnt enter a number for the hoursDelay, defaulting to generate backups after 10 seconds');
+		hoursDelay = .00277;
+	}
+	else {
+		hoursDelay = parseInt(args[0]);
+	}
+
+	if (isNaN(args[1])) {
+		console.log('you didnt enter a number for hoursInteravl, defaulting to 24');
+		hoursInterval = 24
+	}
+	else {
+		hoursInterval = parseInt(args[1]);
+	}
+}
+
+set(generateBackupsIfThreeAM, 1000 * 60 * 60);
