@@ -165,7 +165,7 @@ exports.updateBackups = function() {
 	    	logstring += zipEntry.toString(); // outputs zip entries information
 		});
 
-		logger.log(logstring);
+		logger.log(logstring); // log info about each entry in new zip
 
 		if (zipEntries.length >= 6) {
 			removeUnzippedBackupFiles();
@@ -176,7 +176,7 @@ exports.updateBackups = function() {
 		
 	}
 	else {
-		logger.errorLog('no zip found - not deleting backup files');
+		logger.errorLog('tried creating new zip but no new zip found - not deleting backup files');
 	}
 
 	try {
