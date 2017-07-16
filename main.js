@@ -79,3 +79,8 @@ else if (args.length > 1) {
 		hoursInterval = parseInt(args[1]);
 	}
 }
+
+console.log('starting setTimeout with ' + hoursDelay + 
+	' hours of delay and a ' + hoursInterval + ' hour interval between successive backups');
+
+setTimeout(firstBackupAndStartInterval.bind(hoursInterval), hoursDelay); 
