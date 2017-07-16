@@ -9,9 +9,9 @@ function getCurrentDateString() {
 }
 
 exports.log = function(message) {
-	fs.appendFileSync('./zips/backuplog.txt', getCurrentDateString() + '\n' + message);
+	fs.appendFileSync('./zips/backuplog.txt', '\n' + getCurrentDateString() + '\n' + message);
 }
 
 exports.errorLog = function(message) {
-	fs.appendFileSync('./zips/errorlog.txt', getCurrentDateString() + '\n' + message);
+	fs.appendFileSync('./zips/errorlog.txt', '\n' + getCurrentDateString() + '\n' + message);
 }
