@@ -83,6 +83,48 @@ function removeUnzippedBackupFiles() {
 	}
 }
 
+function isZip(filename) {
+	let ss = filename.slice(filename.length-4, filename.length);
+
+	return ss === '.zip';
+}
+
+function deleteZip(filename) {
+	let path = './zips/' + filename;
+
+	if (fs.existsSync(path)) {
+		fs.unlinkSync(path);
+	}
+}
+
+function deleteIfOlderThanTwoWeeks(filename, currentDayInt) {
+	let fileDayInt = getIntegerDayFromDateString(filename.slice(0, filename.length-4));
+
+	if (fileDayInt <= currentDayInt) {
+		if ((currentDayInt - fileDayInt) >= 14) {
+			deleteZip(filename);
+		} 
+	}
+	// edge case: new month
+	else {
+		if (((31 - fileDayInt) + currentDayInt) >= 15) {
+			deleteZip(filename);
+		}
+	}
+}
+
+function removeZipFilesOlderThanTwoWeeks() {
+	let currentDayInt = getIntegerDayFromDateString(getCurrentDateString());
+
+	let files = fs.readdirSync('./zips/');
+
+	for (let i = 0; i < files.length; i++) {
+		if (isZip(files[i])) {
+			deleteIfOlderThanTwoWeeks(files[i], currentDayInt);
+		}
+	}
+}
+
 // creates a new zip file containing the contents of hte ./backups/ directory
 // if it confirms that the zip file was successfully created. 
 exports.updateBackups = function() {
@@ -112,6 +154,13 @@ exports.updateBackups = function() {
 	}
 	else {
 		logger.errorLog('no zip found - not deleting backup files');
+	}
+
+	try {
+		removeZipFilesOlderThanTwoWeeks();
+	}
+	catch (e) {
+		logger.errorLog(' error removing zip files: ' + e.message + e.stack);
 	}
 }
 
