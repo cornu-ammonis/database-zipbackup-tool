@@ -5,7 +5,7 @@ USAGE:
 	after that hoursDelay and the initial backup generation, the tool will wait for {hoursInterval} hours before
 	attempting to generate backups again.
 
-	if hourshoursDelay is undefined or 0, the first backup will happen immediately. if hoursIntervalHours is undefined, 
+	if hourshoursDelay is undefined or 0, the first backup will happen after 10 seconds. if hoursIntervalHours is undefined, 
 	default is 24 hours between backups.
 	
 	this setup is a workaround for the fact that docker containers can report a distinct time from
@@ -42,15 +42,15 @@ function firstBackupAndStartInterval(_hoursInterval) {
 // remove 'node' and 'main.js' from arguments list so that needed arguments
 // will start at [0]
 var args = process.argv.slice(2);
-var hoursDelay;
-var hoursInterval;
+
+// defaults
+var hoursDelay = 00277; // equivalent to ~10 seconds, gives user chance to abort
+var hoursInterval = 24;
 
 // case where user provides no arguments
 if (args.length == 0) {
 	
 	//defaults
-	hoursDelay = 0;
-	hoursInterval = 24;
 	console.log('defaulting to immediate backup and 24 hour hoursInterval');
 }
 
@@ -58,13 +58,11 @@ if (args.length == 0) {
 else if (args.length == 1) {
 	if (isNaN(args[0])) {
 		console.log('you didnt enter a number for the hoursDelay, defaulting to generate backups after 10 seconds');
-		hoursDelay = .00277;
 	}
 	else {
 		hoursDelay = parseInt(args[0]);
 	}
-	//default
-	hoursInterval = 24;
+
 }
 
 // case where user provides delay and hoursinterval argument
@@ -72,7 +70,6 @@ else if (args.length > 1) {
 	
 	if (isNaN(args[0])) {
 		console.log('you didnt enter a number for the hoursDelay, defaulting to generate backups after 10 seconds');
-		hoursDelay = .00277; // equivalent to ~10 seconds, gives user chance to abort
 	}
 	else {
 		hoursDelay = parseInt(args[0]);
@@ -80,7 +77,6 @@ else if (args.length > 1) {
 
 	if (isNaN(args[1])) {
 		console.log('you didnt enter a number for hoursInterval, defaulting to 24');
-		hoursInterval = 24;
 	}
 	else {
 		hoursInterval = parseInt(args[1]);
