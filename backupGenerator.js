@@ -3,6 +3,8 @@ var logger = require('./logger.js');
 const fs = require('fs.extra');
 const path = require('path')
 
+// produces string representation of the date in the following format:
+//    year-month-day-hour-minute
 function getCurrentDateString() {
 		let date = new Date();
 		let dateString = "" + date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate() + "-" + 
@@ -11,6 +13,8 @@ function getCurrentDateString() {
 		return dateString;
 }
 
+// used to parse the integer value for the day in a datestring, 
+//   for the purposes of determining the age of zip files named with the datestring
 function getIntegerDayFromDateString(ds) {
 
 	let dashCount = 0;
@@ -21,6 +25,8 @@ function getIntegerDayFromDateString(ds) {
 		
 		if (ds[i] === '-'){
 			dashCount += 1;
+
+			// past the day portion of the string; end
 			if (dashCount >= 3) {
 				break;
 			}
@@ -41,12 +47,17 @@ function getIntegerDayFromDateString(ds) {
 }
 
 // from https://stackoverflow.com/questions/18112204/get-all-directories-within-directory-nodejs
+// 
+// returns only those entries within srcpath which are themselves directories
 function getDirectories (srcpath) {
   return fs.readdirSync(srcpath)
     .filter(file => fs.lstatSync(path.join(srcpath, file)).isDirectory())
 }
 
-// writes contents at ./backups to ./zips/ with getCurrentDateString.zip as the file name
+// writes contents at ./backups to ./zips/ with name as the file name
+// TYPICAL USEAGE: name should be getCurrentDateString()
+//		we dont simply cal getCurrentDateString here because the function calling this one 
+//      needs the exact name to verify that the zip was created properly
 // note -- AdmZip sometimes fails on e.g. image files, but has worked fine on hte tar files which 
 // this will be used for.
 function createZipFromBackupDirectories(name) {
@@ -58,6 +69,7 @@ function createZipFromBackupDirectories(name) {
 }
 
 // removes a file specified by path if it is a valid file 
+// used to filter out those entries sometimes returned by fs.readirSync which arent actually files
 function removeFileIfExists(path) {
 
 	console.log('checking ' + path);
@@ -83,12 +95,16 @@ function removeUnzippedBackupFiles() {
 	}
 }
 
+// returns true if filename ends with '.zip'
 function isZip(filename) {
+
+	// last 4 characters in filename
 	let ss = filename.slice(filename.length-4, filename.length);
 
 	return ss === '.zip';
 }
 
+// deletes the zip specified by filename found in the ./zips/ directory
 function deleteZip(filename) {
 	let path = './zips/' + filename;
 
@@ -97,6 +113,8 @@ function deleteZip(filename) {
 	}
 }
 
+// checks if a file specified by filename is at least two weeks old and deletes if so 
+// NOTE: checks age by parsing the filename itself, not metadata
 function deleteIfOlderThanTwoWeeks(filename, currentDayInt) {
 	let fileDayInt = getIntegerDayFromDateString(filename.slice(0, filename.length-4));
 
@@ -113,6 +131,7 @@ function deleteIfOlderThanTwoWeeks(filename, currentDayInt) {
 	}
 }
 
+// checks all zips in the './zips' folder and deletes those which are at least 2 weeks old
 function removeZipFilesOlderThanTwoWeeks() {
 	let currentDayInt = getIntegerDayFromDateString(getCurrentDateString());
 
@@ -125,8 +144,12 @@ function removeZipFilesOlderThanTwoWeeks() {
 	}
 }
 
-// creates a new zip file containing the contents of hte ./backups/ directory
-// if it confirms that the zip file was successfully created. 
+// creates a new zip file containing the contents of the ./backups/ directory.
+// deletes contents of ./backups/ if it confirms that the zip file was successfully 
+// created. also clears zip files older than two weeks
+//
+// NOTE  - this is the only function exposed by exports, and is the way which main 
+// will initiate backup generation 
 exports.updateBackups = function() {
 	let nameOfNewZip = getCurrentDateString() + '.zip';
 
@@ -164,7 +187,7 @@ exports.updateBackups = function() {
 	}
 }
 
-exports.testDayStringConverter = function() {
+testDayStringConverter = function() {
 	console.log(getIntegerDayFromDateString(getCurrentDateString()));
 
 	console.log(getIntegerDayFromDateString('2017-7-04-16-48'))
