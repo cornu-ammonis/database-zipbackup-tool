@@ -39,17 +39,22 @@ function firstBackupAndStartInterval(_hoursInterval) {
 }
 
 
-
+// remove 'node' and 'main.js' from arguments list so that needed arguments
+// will start at [0]
 var args = process.argv.slice(2);
 var hoursDelay;
 var hoursInterval;
 
+// case where user provides no arguments
 if (args.length == 0) {
+	
+	//defaults
 	hoursDelay = 0;
 	hoursInterval = 24;
-
 	console.log('defaulting to immediate backup and 24 hour hoursInterval');
 }
+
+// case where user only provides delay argument
 else if (args.length == 1) {
 	if (isNaN(args[0])) {
 		console.log('you didnt enter a number for the hoursDelay, defaulting to generate backups after 10 seconds');
@@ -58,22 +63,24 @@ else if (args.length == 1) {
 	else {
 		hoursDelay = parseInt(args[0]);
 	}
-
+	//default
 	hoursInterval = 24;
 }
+
+// case where user provides delay and hoursinterval argument
 else if (args.length > 1) {
 	
 	if (isNaN(args[0])) {
 		console.log('you didnt enter a number for the hoursDelay, defaulting to generate backups after 10 seconds');
-		hoursDelay = .00277;
+		hoursDelay = .00277; // equivalent to ~10 seconds, gives user chance to abort
 	}
 	else {
 		hoursDelay = parseInt(args[0]);
 	}
 
 	if (isNaN(args[1])) {
-		console.log('you didnt enter a number for hoursInteravl, defaulting to 24');
-		hoursInterval = 24
+		console.log('you didnt enter a number for hoursInterval, defaulting to 24');
+		hoursInterval = 24;
 	}
 	else {
 		hoursInterval = parseInt(args[1]);
@@ -83,4 +90,4 @@ else if (args.length > 1) {
 console.log('starting setTimeout with ' + hoursDelay + 
 	' hours of delay and a ' + hoursInterval + ' hour interval between successive backups');
 
-setTimeout(firstBackupAndStartInterval.bind(null, hoursInterval), hoursDelay * 60 * 60 * 1000); 
+setTimeout( firstBackupAndStartInterval.bind(null, hoursInterval) , hoursDelay * 60 * 60 * 1000); 
