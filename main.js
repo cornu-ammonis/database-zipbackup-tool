@@ -31,6 +31,13 @@ function generateBackups() {
 		
 }
 
+// runs backup, then starts setInterval with given hoursInterval delay
+function firstBackupAndStartInterval(_hoursInterval) {
+	generateBackups();
+
+	setInterval(generateBackups, _hoursInterval * 60 * 60 * 1000)
+}
+
 
 
 var args = process.argv.slice(2);
@@ -72,5 +79,3 @@ else if (args.length > 1) {
 		hoursInterval = parseInt(args[1]);
 	}
 }
-
-set(generateBackupsIfThreeAM, 1000 * 60 * 60);
