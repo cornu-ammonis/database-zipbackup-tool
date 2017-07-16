@@ -1,5 +1,5 @@
 /* 
-USAGE:
+GENERAL USAGE:
 	start with 'node main.js {hoursDelay} {hoursIntervalHours}'
 	where {hoursDelay} is the number of hours to wait before attempting to generate backups.
 	after that hoursDelay and the initial backup generation, the tool will wait for {hoursInterval} hours before
@@ -12,6 +12,10 @@ USAGE:
 	the machine on which they are run, which can cause unexpected behavior when attempting to specify backup-time
 	directly rather than relative to current time (as in this approach). the other method requires that the user be aware
 	of the time internal to the docker container, which is needless opacity circumvented by using relative time.
+
+DOCKER USAGE:
+	you must mount the directories containing backups at /app/backups and the directory where zips should output
+	  at /app/zips
 */
 
 
