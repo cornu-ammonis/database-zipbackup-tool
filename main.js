@@ -8,10 +8,8 @@ GENERAL USAGE:
 	if hourshoursDelay is undefined or 0, the first backup will happen after 10 seconds. if hoursIntervalHours is undefined, 
 	default is 24 hours between backups.
 	
-	this setup is a workaround for the fact that docker containers can report a distinct time from
-	the machine on which they are run, which can cause unexpected behavior when attempting to specify backup-time
-	directly rather than relative to current time (as in this approach). the other method requires that the user be aware
-	of the time internal to the docker container, which is needless opacity circumvented by using relative time.
+	i used this setup because the server to which i deployed this app was set to a different time zone than mine.
+	setting the backup time relative to current time meant i didnt need to worry about converting times. 
 
 DOCKER USAGE:
 	you must mount the directories containing backups at /app/backups and the directory where zips should output
