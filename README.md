@@ -1,5 +1,6 @@
 # database-zipbackup-tool
-**GENERAL USAGE**
+# General Usage
+
 start with 
 
 ```node main.js $hoursDelay $hoursInterval```
@@ -9,5 +10,5 @@ where **{hoursDelay}** is the number of hours to wait before attempting to gener
 I used this setup because the server to which i deployed this app was set to a different time zone than mine.
 Setting the backup time relative to current time meant i didnt need to worry about converting times. 
         
-***DOCKER USAGE***
+# Docker Usage
 You must mount the directories containing backups at /app/backups and the directory where zips should output at /app/zips
