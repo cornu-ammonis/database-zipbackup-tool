@@ -1,5 +1,5 @@
 # database-zipbackup-tool
-***GENERAL USAGE***
+**GENERAL USAGE**
 start with 
 
 ```node main.js $hoursDelay $hoursInterval```
@@ -10,5 +10,4 @@ I used this setup because the server to which i deployed this app was set to a d
 Setting the backup time relative to current time meant i didnt need to worry about converting times. 
         
 ***DOCKER USAGE***
-	you must mount the directories containing backups at /app/backups and the directory where zips should output
-	  at /app/zips
+You must mount the directories containing backups at /app/backups and the directory where zips should output at /app/zips
